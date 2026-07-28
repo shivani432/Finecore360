@@ -1,0 +1,222 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Finecore360 | Employee Management System</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+  </head>
+
+  <body>
+    <div class="container mt-5">
+      <div class="main-card">
+        <!-- ===========================
+             Page Heading
+        ============================ -->
+
+        <div class="mb-4">
+          <h2 class="page-title">Employee Management System</h2>
+
+          <p class="page-subtitle">
+            Manage employees efficiently with Finecore360
+          </p>
+        </div>
+
+        <!-- ===========================
+             Top Action Bar
+        ============================ -->
+        <div class="row mb-4">
+
+    <div class="col-md-3">
+
+        <div class="card text-center shadow-sm">
+
+            <div class="card-body">
+
+                <h6>Total Salary</h6>
+
+                <h3 th:text="${totalSalary}"></h3>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-3">
+
+    <div class="card text-center shadow-sm">
+
+        <div class="card-body">
+
+            <h6>Total Employees</h6>
+
+            <h3 th:text="${totalEmployees}"></h3>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="col-md-3">
+
+    <div class="card text-center shadow-sm">
+
+        <div class="card-body">
+
+            <h6>Total Departments</h6>
+
+            <h3 th:text="${totalDepartments}"></h3>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="col-md-3">
+
+    <div class="card text-center shadow-sm">
+
+        <div class="card-body">
+
+            <h6>Average Salary</h6>
+
+            <h3 th:text="${averageSalary}"></h3>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+        <div class="row g-3 align-items-end">
+        
+
+          <!-- Add Employee Button -->
+          <div class="col-lg-2 col-md-6">
+            <a th:href="@{/add}" class="btn btn-primary w-100">
+              Add Employee
+            </a>
+          </div>
+ 
+          <!-- Search Form -->
+          <div class="col-lg-4 col-md-6">
+            <form th:action="@{/search}" method="get">
+              <div class="input-group">
+                <input
+                  type="text"
+                  name="keyword"
+                  class="form-control"
+                  placeholder="Search Employee"
+                />
+
+                <button class="btn btn-primary" type="submit">Search</button>
+              </div>
+            </form>
+          </div>
+          <!-- Filter -->
+          <div class="col-lg-2 col-md-6">
+            <form th:action="@{/filter}" method="get">
+              <div class="input-group">
+                <select name="department" class="form-select">
+
+    <option value="">All</option>
+
+   <option th:each="department : ${departments}"
+        th:value="${department}"
+        th:text="${#strings.capitalize(department)}">
+</option>
+
+</select>
+
+                <button class="btn btn-success" type="submit">Filter</button>
+              </div>
+            </form>
+          </div>
+          <form th:action="@{/sort}" method="get" class="d-flex">
+
+    <select name="order" class="form-select me-2">
+
+        <option value="asc">Name (A - Z)</option>
+
+        <option value="desc">Name (Z - A)</option>
+
+    </select>
+
+    <button type="submit" class="btn btn-success">
+        Sort
+    </button>
+
+</form>
+        </div>
+
+        <hr class="my-4" />
+
+        <!-- Employee Table -->
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped">
+            <thead class="table-dark">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Salary</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr th:each="employee : ${employees}">
+                <td th:text="${employee.id}"></td>
+
+                <td th:text="${employee.name}"></td>
+
+                <td th:text="${employee.email}"></td>
+
+                <td th:text="${employee.department}"></td>
+
+                <td th:text="${employee.salary}"></td>
+
+                <td class="text-center">
+                  <a
+                    th:href="@{/edit/{id}(id=${employee.id})}"
+                    class="btn btn-warning btn-sm me-2"
+                  >
+                    Edit
+                  </a>
+
+                  <a
+                    th:href="@{/delete/{id}(id=${employee.id})}"
+                    class="btn btn-danger btn-sm"
+                  >
+                    Delete
+                  </a>
+                </td>
+              </tr>
+
+              <!-- Show message when no employee is available -->
+              <tr th:if="${#lists.isEmpty(employees)}">
+                <td colspan="6" class="text-center text-danger fw-bold">
+                  No Employee Found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -48,6 +48,24 @@ Finecore360
 │── README.md
 ```
 
+## 📸 Project Screenshots
+
+### 🏠 Home Page
+
+![Home Page](screenshots/home-page.png)
+
+---
+
+### ➕ Add Employee
+
+![Add Employee](screenshots/add-employee.png)
+
+---
+
+### ✏️ Update Employee
+
+![Update Employee](screenshots/update-employee.png)
+
 ## ▶️ How to Run the Project
 
 1. Clone the repository

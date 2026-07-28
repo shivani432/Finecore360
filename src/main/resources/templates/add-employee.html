@@ -13,7 +13,9 @@
 
         <div class="card-body">    
 
-<h2 class="text-center mb-4">Add Employee</h2>
+<h2 class="text-center mb-4"
+    th:text="${employee.id != 0 ? 'Update Employee' : 'Add Employee'}">
+</h2>
 
 <form th:action="@{/save}" th:object="${employee}" method="post">
     
@@ -54,9 +56,9 @@
 </div>
  </div>
 
-    <button type="submit" class="btn btn-success w-100">
-    Save Employee
-    </button>
+    <button type="submit" class="btn btn-success w-100"
+        th:text="${employee.id != 0 ? 'Update Employee' : 'Save Employee'}">
+</button>
     <a href="/" class="btn btn-secondary w-100 mt-2">
     Back
     </a>

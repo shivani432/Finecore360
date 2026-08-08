@@ -11,11 +11,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     // Search employee by name (Ignore Uppercase / Lowercase)
     List<Employee> findByNameContainingIgnoreCase(String name);
-   List<Employee> findByDepartmentIgnoreCase(String department);
+    List<Employee> findByDepartment_DepartmentNameIgnoreCase(String departmentName);
     @Query("SELECT SUM(e.salary) FROM Employee e")
     Double getTotalSalary();
 
-    @Query("SELECT COUNT(DISTINCT e.department) FROM Employee e")
+    @Query("SELECT COUNT(DISTINCT e.department.id) FROM Employee e")
     long getTotalDepartments();
 
     @Query("SELECT AVG(e.salary) FROM Employee e")
@@ -25,6 +25,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     List<Employee> findAllByOrderByNameDesc();
 
-    @Query("SELECT DISTINCT e.department FROM Employee e ORDER BY e.department")
+    @Query("SELECT DISTINCT e.department.departmentName FROM Employee e ORDER BY e.department.departmentName")
     List<String> getAllDepartments();
+
 }

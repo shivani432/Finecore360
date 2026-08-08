@@ -38,14 +38,28 @@
 </div>
  </div>
 
-    <div class="mb-3">
+   <div class="mb-3">
+
     <label>Department :</label>
-    <input type="text" th:field="*{department}" class="form-control">
+
+    <select th:field="*{department}"
+            class="form-select">
+
+        <option value="">Select Department</option>
+
+        <option th:each="department : ${departments}"
+                th:value="${department.id}"
+                th:text="${department.departmentName}">
+        </option>
+
+    </select>
+
     <div class="text-danger"
-     th:if="${#fields.hasErrors('department')}"
-     th:errors="*{department}">
+         th:if="${#fields.hasErrors('department')}"
+         th:errors="*{department}">
+    </div>
+
 </div>
- </div>
 
     <div class="mb-3">
     <label>Salary :</label>
@@ -64,7 +78,8 @@
     </a>
 
 </form>
-        </div>
+
+
 
     </div>
 

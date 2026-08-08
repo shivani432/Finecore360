@@ -9,16 +9,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fincore.fincore360.entity.Department;
 import com.fincore.fincore360.entity.Employee;
+import com.fincore.fincore360.service.DepartmentService;
 import com.fincore.fincore360.service.EmployeeService;
 
 import jakarta.validation.Valid;
 
+
+
 @Controller
 public class HomeController {
 
-    @Autowired
+@Autowired
 private EmployeeService employeeService;
+@Autowired
+private DepartmentService departmentService;
 
     // =====================================
 // मराठी : Home Page उघडणे
@@ -47,11 +53,13 @@ public String home(@RequestParam(defaultValue = "0") int page,
 
     return "index";
 }
-    
-     @GetMapping("/add")
+@GetMapping("/add")
 public String addEmployee(Model model) {
 
     model.addAttribute("employee", new Employee());
+
+    model.addAttribute("departments",
+            departmentService.getAllDepartments());
 
     return "add-employee";
 }
@@ -87,6 +95,9 @@ public String editEmployee(@PathVariable int id, Model model) {
     // English : Send Employee to View
     // =====================================
     model.addAttribute("employee", employee);
+
+    model.addAttribute("departments",
+        departmentService.getAllDepartments());
 
     return "add-employee";
 }
@@ -196,5 +207,114 @@ public String sortEmployee(@RequestParam("order") String order,
         employeeService.getAllDepartments());
 
     return "index";
+}
+
+// =====================================
+// Marathi : Department List Page
+// English : Open Department Page
+// =====================================
+@GetMapping("/departments")
+public String departmentPage(Model model) {
+
+    model.addAttribute("departments",
+            departmentService.getAllDepartments());
+
+    return "department";
+}
+
+        // =====================================
+// Marathi : Open Add Department Page
+// English : Open Add Department Form
+// =====================================
+@GetMapping("/departments/add")
+public String addDepartment(Model model) {
+
+    model.addAttribute("department", new Department());
+
+    return "add-department";
+}
+
+        // =====================================
+// Marathi : Save Department
+// English : Save Department
+// =====================================
+// =====================================
+// Marathi : Save / Update Department
+// English : Save or Update Department
+// =====================================
+@PostMapping("/departments/save")
+public String saveDepartment(@Valid Department department,
+                             BindingResult result) {
+
+    if (result.hasErrors()) {
+        return "add-department";
+    }
+
+    departmentService.saveDepartment(department);
+
+    return "redirect:/departments";
+}
+
+        // =====================================
+// Marathi : Delete Department
+// English : Delete Department
+// =====================================
+@GetMapping("/departments/delete/{id}")
+public String deleteDepartment(@PathVariable Long id,
+                               Model model) {
+
+    try {
+
+        departmentService.deleteDepartment(id);
+
+    } catch (RuntimeException e) {
+
+        model.addAttribute("errorMessage", e.getMessage());
+
+        model.addAttribute("departments",
+                departmentService.getAllDepartments());
+
+        return "department";
+    }
+
+    return "redirect:/departments";
+}
+
+        
+      // =====================================
+// Marathi : Search Department
+// English : Search Department
+// =====================================
+@GetMapping("/departments/search")
+public String searchDepartment(
+        @RequestParam("departmentName") String departmentName,
+        Model model) {
+
+    if (departmentName == null || departmentName.trim().isEmpty()) {
+
+        model.addAttribute("departments",
+                departmentService.getAllDepartments());
+
+    } else {
+
+        model.addAttribute("departments",
+                departmentService.searchDepartment(departmentName));
+    }
+
+    return "department";
+}  
+
+        // =====================================
+// Marathi : Open Edit Department Page
+// English : Open Edit Department Form
+// =====================================
+@GetMapping("/departments/edit/{id}")
+public String editDepartment(@PathVariable Long id,
+                             Model model) {
+
+    model.addAttribute("department",
+            departmentService.getDepartmentById(id));
+
+    return "add-department";
 }
 }

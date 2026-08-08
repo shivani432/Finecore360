@@ -1,12 +1,14 @@
 package com.fincore.fincore360.entity;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+
 
 @Entity
 public class Employee {
@@ -19,8 +21,9 @@ public class Employee {
     @NotBlank(message = "Email is required")
     @Email(message = "Enter a valid email")
     private String email;
-    @NotBlank(message = "Department is required")
-    private String department;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
     @Positive(message = "Salary must be greater than 0")
     private double salary;
 
@@ -34,13 +37,12 @@ public class Employee {
     // मराठी: सर्व Values एकाच वेळी Set करण्यासाठी Constructor
     // English: Parameterized Constructor
 
-    public Employee(String department, String email, int id, String name, double salary) {
-        this.department = department;
-        this.email = email;
-        this.id = id;
-        this.name = name;
-        this.salary = salary;
-    
+   public Employee(Department department, String email, int id, String name, double salary) {
+    this.department = department;
+    this.email = email;
+    this.id = id;
+    this.name = name;
+    this.salary = salary;
 }
 
     // मराठी: Id मिळवण्यासाठी Getter
@@ -79,15 +81,11 @@ public void setEmail(String email) {
     this.email = email;
 }
 
-// मराठी: Department मिळवण्यासाठी Getter
-// English: Getter for department
-public String getDepartment() {
+public Department getDepartment() {
     return department;
 }
 
-// मराठी: Department Set करण्यासाठी Setter
-// English: Setter for department
-public void setDepartment(String department) {
+public void setDepartment(Department department) {
     this.department = department;
 }
 

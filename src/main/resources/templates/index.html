@@ -182,7 +182,7 @@
 
                 <td th:text="${employee.email}"></td>
 
-                <td th:text="${employee.department}"></td>
+               <td th:text="${employee.department != null ? employee.department.departmentName : 'Not Assigned'}"></td>
 
                 <td th:text="${employee.salary}"></td>
 

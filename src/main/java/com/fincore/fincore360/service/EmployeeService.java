@@ -15,18 +15,7 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    // =====================================
-    // मराठी : Employee Save करणे
-    // English : Save Employee
-    // =====================================
-   public void saveEmployee(Employee employee) {
-
-    String department = employee.getDepartment().trim();
-
-    department = department.substring(0, 1).toUpperCase()
-            + department.substring(1).toLowerCase();
-
-    employee.setDepartment(department);
+public void saveEmployee(Employee employee) {
 
     employeeRepository.save(employee);
 }
@@ -57,8 +46,10 @@ public class EmployeeService {
     public List<Employee> searchEmployee(String name) {
     return employeeRepository.findByNameContainingIgnoreCase(name);
 }
-    public List<Employee> filterByDepartment(String department) {
-    return employeeRepository.findByDepartmentIgnoreCase(department);
+  public List<Employee> filterByDepartment(String department) {
+
+    return employeeRepository
+            .findByDepartment_DepartmentNameIgnoreCase(department);
 }
 
 public Double getTotalSalary() {

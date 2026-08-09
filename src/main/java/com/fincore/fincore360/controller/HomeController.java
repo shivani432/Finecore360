@@ -64,6 +64,9 @@ public String addEmployee(Model model) {
 
     model.addAttribute("departments",
             departmentService.getAllDepartments());
+    model.addAttribute("designations",
+        designationService.getAllDesignations());
+// Database मधील सर्व Designations Employee form ला पाठवतो    
 
     return "add-employee";
 }
@@ -103,6 +106,9 @@ public String editEmployee(@PathVariable int id, Model model) {
     model.addAttribute("departments",
         departmentService.getAllDepartments());
 
+    model.addAttribute("designations",
+        designationService.getAllDesignations());
+// Database मधील सर्व Designations Employee form ला पाठवतो
     return "add-employee";
 }
 

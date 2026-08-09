@@ -15,7 +15,7 @@ public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     
     @NotBlank(message = "Department Name is required")
@@ -34,11 +34,13 @@ public class Department {
     //     this.departmentName = departmentName;
     // }
 
-    public int getId() {
+    // Department ची ID मिळवण्यासाठी
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    // Department ची ID set करण्यासाठी
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -169,6 +169,7 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Department</th>
+                <th>Designation</th>
                 <th>Salary</th>
                 <th class="text-center">Action</th>
               </tr>
@@ -182,8 +183,12 @@
 
                 <td th:text="${employee.email}"></td>
 
-               <td th:text="${employee.department != null ? employee.department.departmentName : 'Not Assigned'}"></td>
-
+              <td th:text="${employee.department != null ? employee.department.departmentName : 'Not Assigned'}">
+</td>
+                <!-- Employee शी जोडलेली Designation दाखवतो -->
+              <!-- Employee ची Designation असेल तर तिचे नाव दाखवतो -->
+<td th:text="${employee.designation != null ? employee.designation.designationName : 'Not Assigned'}">
+</td>
                 <td th:text="${employee.salary}"></td>
 
                 <td class="text-center">

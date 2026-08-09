@@ -21,9 +21,18 @@ public class Employee {
     @NotBlank(message = "Email is required")
     @Email(message = "Enter a valid email")
     private String email;
+
     @ManyToOne
     @JoinColumn(name = "department_id")
+    // Employee एका Department शी जोडला जातो
     private Department department;
+
+
+    @ManyToOne
+    @JoinColumn(name = "designation_id")
+    // Employee एका Designation शी जोडला जातो
+    private Designation designation;
+    
     @Positive(message = "Salary must be greater than 0")
     private double salary;
 
@@ -37,13 +46,20 @@ public class Employee {
     // मराठी: सर्व Values एकाच वेळी Set करण्यासाठी Constructor
     // English: Parameterized Constructor
 
-   public Employee(Department department, String email, int id, String name, double salary) {
+  public Employee(Department department,
+                Designation designation,
+                String email,
+                int id,
+                String name,
+                double salary) {
+
     this.department = department;
+    this.designation = designation;
     this.email = email;
     this.id = id;
     this.name = name;
     this.salary = salary;
-}
+} 
 
     // मराठी: Id मिळवण्यासाठी Getter
 // English: Getter for id
@@ -89,6 +105,16 @@ public void setDepartment(Department department) {
     this.department = department;
 }
 
+// Employee चा Designation मिळवण्यासाठी
+public Designation getDesignation() {
+    return designation;
+}
+
+// Employee चा Designation set करण्यासाठी
+public void setDesignation(Designation designation) {
+    this.designation = designation;
+}
+
 // मराठी: Salary मिळवण्यासाठी Getter
 // English: Getter for salary
 public double getSalary() {
@@ -100,4 +126,5 @@ public double getSalary() {
 public void setSalary(double salary) {
     this.salary = salary;
 }
+
 }

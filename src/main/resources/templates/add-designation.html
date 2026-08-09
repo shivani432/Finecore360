@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Add Designation</title>
+
+    <!-- Bootstrap वापरून professional form design करण्यासाठी -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Project चा common CSS -->
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="main-card">
+
+    <h2 class="page-title">
+        Designation Management
+    </h2>
+
+    <p class="page-subtitle">
+        Enter Designation Details
+    </p>
+
+    <hr>
+
+
+    <!--
+        Add किंवा Edit Designation save करण्यासाठी form.
+        th:object="${designation}" मुळे form
+        Designation Java object शी connect होतो.
+    -->
+    <form th:action="@{/designations/save}"
+          th:object="${designation}"
+          method="post">
+
+
+        <!--
+            Edit करताना existing ID hidden field मध्ये ठेवतो.
+            Add करताना ID 0/null राहतो.
+        -->
+        <input type="hidden"
+               th:field="*{id}">
+
+
+        <!-- ===========================
+             Designation Name
+        ============================ -->
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Designation Name
+            </label>
+
+            <!--
+                th:field="*{designationName}"
+                input ला Designation object च्या
+                designationName field शी bind करतो.
+            -->
+            <input type="text"
+                   th:field="*{designationName}"
+                   class="form-control"
+                   placeholder="Enter Designation Name">
+
+
+            <!--
+                Validation error असल्यास
+                तो message इथे दाखवतो.
+            -->
+            <small class="text-danger"
+                   th:if="${#fields.hasErrors('designationName')}"
+                   th:errors="*{designationName}">
+            </small>
+
+        </div>
+
+
+        <!-- ===========================
+             Buttons
+        ============================ -->
+
+        <div class="d-flex gap-2">
+
+            <!--
+                employee.id प्रमाणेच
+                designation.id पाहून
+                Add किंवा Update text दाखवतो.
+            -->
+            <button type="submit"
+                    class="btn btn-success"
+                    th:text="${designation.id != null ? 'Update Designation' : 'Save Designation'}">
+
+                Save Designation
+
+            </button>
+
+
+            <!-- Designation List page वर परत जाण्यासाठी -->
+            <a href="/designations"
+               class="btn btn-secondary">
+
+                Back
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

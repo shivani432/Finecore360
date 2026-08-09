@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Designation Management</title>
+
+    <!-- Bootstrap वापरून professional UI तयार करण्यासाठी -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- आपल्या project चा common CSS -->
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div class="main-card">
+
+    <!-- ===========================
+         Page Header
+    ============================ -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="page-title">
+                Designation Management
+            </h2>
+
+            <p class="page-subtitle">
+                Manage Designations Efficiently
+            </p>
+
+        </div>
+
+        <!-- Add Designation page उघडण्यासाठी -->
+        <a href="/designations/add"
+           class="btn btn-primary">
+
+            Add Designation
+
+        </a>
+
+    </div>
+
+
+    <!-- ===========================
+         Search Designation
+    ============================ -->
+
+    <form th:action="@{/designations/search}"
+          method="get"
+          class="mb-4">
+
+        <div class="row">
+
+            <div class="col-md-10">
+
+                <!-- User कडून search text घेण्यासाठी -->
+                <input type="text"
+                       name="designationName"
+                       class="form-control"
+                       placeholder="Search Designation">
+
+            </div>
+
+            <div class="col-md-2">
+
+                <!-- Search request submit करण्यासाठी -->
+                <button type="submit"
+                        class="btn btn-primary w-100">
+
+                    Search
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+    <!-- ===========================
+         Designation Table
+    ============================ -->
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-hover table-striped">
+
+            <thead class="table-dark">
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Designation Name</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <!-- Database मधील प्रत्येक Designation साठी एक row -->
+                <tr th:each="designation : ${designations}">
+
+                    <!-- Designation ID दाखवतो -->
+                    <td th:text="${designation.id}"></td>
+
+                    <!-- Designation Name दाखवतो -->
+                    <td th:text="${designation.designationName}"></td>
+
+                    <td class="text-center">
+
+                        <!-- Edit Designation -->
+                        <a th:href="@{/designations/edit/{id}(id=${designation.id})}"
+                           class="btn btn-warning btn-sm me-2">
+
+                            Edit
+
+                        </a>
+
+                        <!-- Delete Designation -->
+                        <a th:href="@{/designations/delete/{id}(id=${designation.id})}"
+                           class="btn btn-danger btn-sm">
+
+                            Delete
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+
+                <!-- Designation नसतील तर हा message दाखवतो -->
+                <tr th:if="${#lists.isEmpty(designations)}">
+
+                    <td colspan="3"
+                        class="text-center text-danger fw-bold">
+
+                        No Designation Found
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

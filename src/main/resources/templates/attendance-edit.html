@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Edit Attendance</title>
+
+    <!-- Existing Finecore360 CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+
+<body>
+
+<div class="main-card">
+
+    <!-- Page Title -->
+    <h1 class="page-title">
+        Edit Attendance
+    </h1>
+
+    <!-- Page Subtitle -->
+    <p class="page-subtitle">
+        Update employee attendance details
+    </p>
+
+
+    <!-- =====================================
+         EDIT ATTENDANCE FORM
+         ===================================== -->
+
+    <form class="attendance-form"
+          th:action="@{/attendance-update}"
+          method="post">
+
+
+        <!-- Attendance ID
+             Existing record कोणता update करायचा
+             हे ओळखण्यासाठी hidden field -->
+        <input type="hidden"
+               name="id"
+               th:value="${attendance.id}">
+
+
+        <div class="attendance-form-scroll">
+
+
+            <!-- Employee -->
+            <div class="attendance-field">
+
+                <label>Employee</label>
+
+                <select name="employee.id"
+                        required>
+
+                    <!-- Existing Employee select -->
+                    <option th:each="employee : ${employees}"
+                            th:value="${employee.id}"
+                            th:text="${employee.name}"
+                            th:selected="${attendance.employee != null
+                            and employee.id == attendance.employee.id}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Date -->
+            <div class="attendance-field">
+
+                <label>Date</label>
+
+                <input type="date"
+                       name="date"
+                       th:value="${attendance.date}"
+                       required>
+
+            </div>
+
+
+            <!-- Status -->
+            <div class="attendance-field">
+
+                <label>Status</label>
+
+                <select name="status"
+                        required>
+
+                    <option value="PRESENT"
+                            th:selected="${attendance.status == 'PRESENT'}">
+                        Present
+                    </option>
+
+                    <option value="ABSENT"
+                            th:selected="${attendance.status == 'ABSENT'}">
+                        Absent
+                    </option>
+
+                    <option value="HALF_DAY"
+                            th:selected="${attendance.status == 'HALF_DAY'}">
+                        Half Day
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Check In -->
+            <div class="attendance-field">
+
+                <label>Check In</label>
+
+                <input type="time"
+                       name="checkInTime"
+                       th:value="${attendance.checkInTime}">
+
+            </div>
+
+
+            <!-- Check Out -->
+            <div class="attendance-field">
+
+                <label>Check Out</label>
+
+                <input type="time"
+                       name="checkOutTime"
+                       th:value="${attendance.checkOutTime}">
+
+            </div>
+
+
+            <!-- Update Button -->
+            <div class="attendance-button">
+
+                <button type="submit">
+                    Update Attendance
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </form>
+
+
+    <!-- Back button -->
+    <br>
+
+    <a th:href="@{/attendance-page}">
+        ← Back to Attendance
+    </a>
+
+
+</div>
+
+</body>
+
+</html>

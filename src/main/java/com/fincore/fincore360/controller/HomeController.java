@@ -5,22 +5,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fincore.fincore360.entity.Attendance;
 import com.fincore.fincore360.entity.Department;
 import com.fincore.fincore360.entity.Designation;
 import com.fincore.fincore360.entity.Employee;
+import com.fincore.fincore360.service.AttendanceService;
 import com.fincore.fincore360.service.DepartmentService;
 import com.fincore.fincore360.service.DesignationService;
 import com.fincore.fincore360.service.EmployeeService;
 
 import jakarta.validation.Valid;
-// Add Designation form मध्ये Designation object वापरण्यासाठी
 
 @Controller
 public class HomeController {
+
+@Autowired
+private AttendanceService attendanceService;
 
 @Autowired
 private EmployeeService employeeService;
@@ -442,4 +447,65 @@ public String searchDesignation(
     // Search result Designation List page वर दाखवतो
     return "designation";
 }
+
+// Attendance page open करण्यासाठी
+@GetMapping("/attendance-page")
+public String attendancePage(Model model) {
+
+    // Database मधील सर्व Attendance records page ला पाठवतो.
+    model.addAttribute("attendances",
+            attendanceService.getAllAttendance());
+
+    // Database मधील सर्व Employees page ला पाठवतो.
+    model.addAttribute("employees",
+            employeeService.getAllEmployees());
+
+    // attendance.html page open करतो.
+    return "attendance";
+}
+
+// HTML form मधून Attendance save करण्यासाठी.
+// HTML form application/x-www-form-urlencoded data पाठवतो,
+// म्हणून येथे @ModelAttribute वापरतो.
+@PostMapping("/attendance/save")
+public String saveAttendanceFromPage(@ModelAttribute Attendance attendance) {
+
+    // AttendanceService Employee ID वरून actual Employee शोधून
+    // Attendance database मध्ये save करेल.
+    attendanceService.saveAttendance(attendance);
+
+    // Save झाल्यानंतर Attendance page वर परत जातो.
+    return "redirect:/attendance-page";
+}
+
+// Attendance Edit Page open करण्यासाठी
+@GetMapping("/attendance-edit/{id}")
+public String editAttendancePage(@PathVariable Long id, Model model) {
+
+    Attendance attendance = attendanceService
+            .getAttendanceById(id)
+            .orElseThrow(() -> new RuntimeException("Attendance not found"));
+
+    model.addAttribute("attendance", attendance);
+
+    model.addAttribute("employees",
+            employeeService.getAllEmployees());
+
+    return "attendance-edit";
+}
+
+// Attendance Edit form मधून आलेली update request handle करतो.
+@PostMapping("/attendance-update")
+public String updateAttendanceFromPage(
+        @ModelAttribute Attendance attendance) {
+
+    // Existing Attendance record update करतो.
+    attendanceService.updateAttendance(
+            attendance.getId(),
+            attendance);
+
+    // Update झाल्यावर Attendance list page वर परत जातो.
+    return "redirect:/attendance-page";
+}
+
 }

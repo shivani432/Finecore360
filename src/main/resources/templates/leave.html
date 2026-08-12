@@ -169,7 +169,7 @@
 
             <tr>
 
-                <th>ID</th>
+                
                 <th>Employee</th>
                 <th>Leave Date</th>
                 <th>Leave Type</th>
@@ -186,8 +186,6 @@
 
             <tr th:each="leave : ${leaves}">
 
-                <td th:text="${leave.id}">
-                </td>
 
                 <td th:text="${leave.employee.name}">
                 </td>

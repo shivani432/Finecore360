@@ -102,8 +102,6 @@
 
                 <tr>
 
-                    <th>ID</th>
-
                     <th>Designation Name</th>
 
                     <th>Action</th>
@@ -117,9 +115,6 @@
 
                 <!-- Database मधील प्रत्येक Designation साठी एक row -->
                 <tr th:each="designation : ${designations}">
-
-                    <!-- Designation ID दाखवतो -->
-                    <td th:text="${designation.id}"></td>
 
                     <!-- Designation Name दाखवतो -->
                     <td th:text="${designation.designationName}"></td>

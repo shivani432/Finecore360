@@ -115,7 +115,6 @@
 
                     <tr>
 
-                        <th>ID</th>
                         <th>Department Name</th>
                         <th>Employees</th>
                         <th>Action</th> 
@@ -126,7 +125,6 @@
                 <tbody>
                                         <tr th:each="department : ${departments}">
 
-                        <td th:text="${department.id}"></td>
 
                         <td th:text="${department.departmentName}"></td>
     <td th:text="${department.employees != null ? department.employees.size() : 0}">

@@ -23,6 +23,7 @@ import com.fincore.fincore360.service.EmployeeService;
 import com.fincore.fincore360.service.LeaveService;
 import com.fincore.fincore360.service.PayrollService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -43,19 +44,35 @@ private PayrollService payrollService;
 @Autowired
 private LeaveService leaveService;
 
+// =====================================
+// Marathi : Login Page उघडणे
+// English : Open Login Page
+// =====================================
+@GetMapping("/login")
+public String loginPage() {
+
+    // login.html page browser मध्ये दाखवतो.
+    return "login";
+}
+
     // =====================================
 // मराठी : Home Page उघडणे
 // English : Open Home Page
 // =====================================
 @GetMapping("/")
-public String home(@RequestParam(defaultValue = "0") int page,
+public String home(HttpSession session,@RequestParam(defaultValue = "0") int page,
                    Model model) {
 
-  model.addAttribute("employees",
-        employeeService.getAllEmployees());
+    if (session.getAttribute("user") == null) {
+        return "redirect:/login";
+    }
 
-    model.addAttribute("totalSalary",
-            employeeService.getTotalSalary());
+    model.addAttribute("employees",
+            employeeService.getAllEmployees());
+
+// Search page वर formatted Total Salary दाखवतो.
+model.addAttribute("totalSalary",
+        employeeService.getFormattedTotalSalary());
 
     model.addAttribute("totalEmployees",
             employeeService.getTotalEmployees());
@@ -63,8 +80,9 @@ public String home(@RequestParam(defaultValue = "0") int page,
     model.addAttribute("totalDepartments",
             employeeService.getTotalDepartments());
 
-    model.addAttribute("averageSalary",
-            employeeService.getAverageSalary());
+   // Search page वर formatted Average Salary दाखवतो.
+model.addAttribute("averageSalary",
+        employeeService.getFormattedAverageSalary());
     model.addAttribute("departments",
             employeeService.getAllDepartments());
 
@@ -149,8 +167,13 @@ public String searchEmployee(@RequestParam("keyword") String keyword,
        model.addAttribute("employees",
         employeeService.getAllEmployees());
 
-        model.addAttribute("totalSalary",
-                employeeService.getTotalSalary());
+// Search page वर formatted Total Salary दाखवतो.
+model.addAttribute("totalSalary",
+        employeeService.getFormattedTotalSalary());
+
+// Search page वर formatted Average Salary दाखवतो.
+model.addAttribute("averageSalary",
+        employeeService.getFormattedAverageSalary());
 
         model.addAttribute("totalEmployees",
                 employeeService.getTotalEmployees());
@@ -158,8 +181,7 @@ public String searchEmployee(@RequestParam("keyword") String keyword,
         model.addAttribute("totalDepartments",
                 employeeService.getTotalDepartments());
 
-        model.addAttribute("averageSalary",
-                employeeService.getAverageSalary());
+      
         
     } else {
 
@@ -214,9 +236,13 @@ public String sortEmployee(@RequestParam("order") String order,
         model.addAttribute("employees",
                 employeeService.sortByNameDesc());
     }
+// Dashboard वर formatted Total Salary दाखवतो.
+model.addAttribute("totalSalary",
+        employeeService.getFormattedTotalSalary());
 
-    model.addAttribute("totalSalary",
-            employeeService.getTotalSalary());
+// Filter page वर formatted Average Salary दाखवतो.
+model.addAttribute("averageSalary",
+        employeeService.getFormattedAverageSalary());
 
     model.addAttribute("totalEmployees",
             employeeService.getTotalEmployees());
@@ -224,8 +250,7 @@ public String sortEmployee(@RequestParam("order") String order,
     model.addAttribute("totalDepartments",
             employeeService.getTotalDepartments());
 
-    model.addAttribute("averageSalary",
-            employeeService.getAverageSalary());
+    
     model.addAttribute("departments",
         employeeService.getAllDepartments());
 
@@ -720,5 +745,20 @@ public String deleteLeaveFromPage(@PathVariable int id) {
 
     // Delete झाल्यानंतर Leave list page वर परत जातो.
     return "redirect:/leave-page";
+}
+
+// =====================================
+// Logout
+// =====================================
+
+// User logout केल्यावर login page वर redirect करतो.
+@GetMapping("/logout")
+public String logout(HttpSession session) {
+
+    // Current user's session remove करतो.
+    session.invalidate();
+
+    // Login page वर परत पाठवतो.
+    return "redirect:/login";
 }
 }

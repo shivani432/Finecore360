@@ -118,7 +118,7 @@
 
             <thead>
             <tr>
-                <th>ID</th>
+              
                 <th>Employee</th>
                 <th>Date</th>
                 <th>Status</th>
@@ -132,8 +132,6 @@
 
             <!-- Display all Attendance records -->
             <tr th:each="attendance : ${attendances}">
-
-                <td th:text="${attendance.id}"></td>
 
                 <td th:text="${attendance.employee.name}"></td>
 

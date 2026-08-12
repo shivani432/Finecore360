@@ -123,6 +123,53 @@ public long getTotalDepartments() {
 } public Double getAverageSalary() {
     return employeeRepository.getAverageSalary();
 }
+// =====================================
+// Dashboard Salary Formatting
+// =====================================
+
+// Total Salary ला dashboard साठी readable format मध्ये convert करतो.
+// Example: 640000 -> ₹6.40 L
+public String getFormattedTotalSalary() {
+
+    double salary = getTotalSalary();
+
+    return formatSalary(salary);
+}
+
+
+// Average Salary ला dashboard साठी readable format मध्ये convert करतो.
+// Example: 160000 -> ₹1.60 L
+public String getFormattedAverageSalary() {
+
+    double salary = getAverageSalary();
+
+    return formatSalary(salary);
+}
+
+
+// Salary number readable format मध्ये convert करणारी common method.
+private String formatSalary(double salary) {
+
+    if (salary >= 10000000) {
+
+        // 1 Crore किंवा त्यापेक्षा जास्त
+        return String.format("₹%.2f Cr", salary / 10000000);
+
+    } else if (salary >= 100000) {
+
+        // 1 Lakh किंवा त्यापेक्षा जास्त
+        return String.format("₹%.2f L", salary / 100000);
+
+    } else if (salary >= 1000) {
+
+        // 1 Thousand किंवा त्यापेक्षा जास्त
+        return String.format("₹%.2f K", salary / 1000);
+
+    } else {
+
+        return String.format("₹%.2f", salary);
+    }
+}
 public List<Employee> sortByNameAsc() {
     return employeeRepository.findAllByOrderByNameAsc();
 }

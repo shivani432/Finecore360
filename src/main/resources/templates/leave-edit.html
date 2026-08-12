@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Edit Leave</title>
+
+    <!-- Existing Finecore360 CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+
+<body>
+
+<div class="main-card leave-page">
+
+    <!-- Page Title -->
+    <h1 class="page-title">
+        Edit Leave
+    </h1>
+
+    <p class="page-subtitle">
+        Update employee leave details
+    </p>
+
+
+    <!-- =====================================
+         EDIT LEAVE FORM
+         ===================================== -->
+
+    <form class="leave-form"
+          th:action="@{/leave-page/update}"
+          method="post">
+
+        <!-- Existing Leave ID -->
+        <input type="hidden"
+               name="id"
+               th:value="${leave.id}">
+
+
+        <div class="leave-form-fields">
+
+
+            <!-- Employee -->
+            <div class="leave-field">
+
+                <label>Employee</label>
+
+                <select name="employee.id"
+                        required>
+
+                    <option th:each="employee : ${employees}"
+                            th:value="${employee.id}"
+                            th:text="${employee.name}"
+                            th:selected="${leave.employee != null
+                            and employee.id == leave.employee.id}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Leave Date -->
+            <div class="leave-field">
+
+                <label>Leave Date</label>
+
+                <input type="date"
+                       name="leaveDate"
+                       th:value="${leave.leaveDate}"
+                       required>
+
+            </div>
+
+
+            <!-- Leave Type -->
+            <div class="leave-field">
+
+                <label>Leave Type</label>
+
+                <select name="leaveType"
+                        required>
+
+                    <option value="Casual Leave"
+                            th:selected="${leave.leaveType == 'Casual Leave'}">
+                        Casual Leave
+                    </option>
+
+                    <option value="Sick Leave"
+                            th:selected="${leave.leaveType == 'Sick Leave'}">
+                        Sick Leave
+                    </option>
+
+                    <option value="Earned Leave"
+                            th:selected="${leave.leaveType == 'Earned Leave'}">
+                        Earned Leave
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Status -->
+            <div class="leave-field">
+
+                <label>Status</label>
+
+                <select name="status"
+                        required>
+
+                    <option value="Pending"
+                            th:selected="${leave.status == 'Pending'}">
+                        Pending
+                    </option>
+
+                    <option value="Approved"
+                            th:selected="${leave.status == 'Approved'}">
+                        Approved
+                    </option>
+
+                    <option value="Rejected"
+                            th:selected="${leave.status == 'Rejected'}">
+                        Rejected
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Reason -->
+            <div class="leave-field">
+
+                <label>Reason</label>
+
+                <input type="text"
+                       name="reason"
+                       th:value="${leave.reason}"
+                       placeholder="Enter reason">
+
+            </div>
+
+
+            <!-- Update Button -->
+            <div class="leave-button">
+
+                <button type="submit">
+                    Update Leave
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+    <!-- Back Button -->
+    <br>
+
+    <a th:href="@{/leave-page}">
+        ← Back to Leave
+    </a>
+
+
+</div>
+
+</body>
+
+</html>

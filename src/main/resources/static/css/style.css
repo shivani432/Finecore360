@@ -554,4 +554,190 @@ button {
         width: 100%;
     }
 
+
+}
+
+/* =====================================
+   LEAVE PAGE
+   ===================================== */
+
+.leave-page {
+    margin: 30px auto;
+    max-width: 1200px;
+}
+
+
+/* Leave Form */
+
+.leave-form {
+    margin-top: 25px;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+
+/* Form Fields */
+
+.leave-form-fields {
+    display: flex;
+    gap: 15px;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+
+.leave-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 170px;
+}
+
+
+.leave-field label {
+    margin-bottom: 7px;
+    font-weight: 600;
+    color: #333;
+}
+
+
+.leave-field input,
+.leave-field select {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 7px;
+    font-size: 14px;
+    background: white;
+}
+
+
+.leave-field input:focus,
+.leave-field select:focus {
+    outline: none;
+    border-color: #0d6efd;
+}
+
+
+/* Save / Update Button */
+
+.leave-button button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 7px;
+    background: #0d6efd;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.leave-button button:hover {
+    background: #0b5ed7;
+}
+
+
+/* Leave Heading */
+
+.leave-heading {
+    margin-top: 35px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+
+/* Leave Table */
+
+.leave-table-wrapper {
+    overflow-x: auto;
+}
+
+
+.leave-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+
+.leave-table th {
+    background: #0d6efd;
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+
+.leave-table td {
+    padding: 11px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+
+.leave-table tbody tr:hover {
+    background: #f5f7fa;
+}
+
+
+/* Edit Button */
+
+.leave-actions .edit-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-right: 5px;
+    border-radius: 5px;
+    background: #198754;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+
+/* Delete Button */
+
+.leave-actions .delete-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 5px;
+    background: #dc3545;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+
+.leave-actions .edit-btn:hover {
+    background: #157347;
+}
+
+
+.leave-actions .delete-btn:hover {
+    background: #bb2d3b;
+}
+
+
+/* =====================================
+   LEAVE MOBILE VIEW
+   ===================================== */
+
+@media (max-width: 768px) {
+
+    .leave-page {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    .leave-form-fields {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .leave-field {
+        width: 100%;
+    }
+
+    .leave-button button {
+        width: 100%;
+    }
+
 }

@@ -14,11 +14,13 @@ import com.fincore.fincore360.entity.Attendance;
 import com.fincore.fincore360.entity.Department;
 import com.fincore.fincore360.entity.Designation;
 import com.fincore.fincore360.entity.Employee;
+import com.fincore.fincore360.entity.Leave;
 import com.fincore.fincore360.entity.Payroll;
 import com.fincore.fincore360.service.AttendanceService;
 import com.fincore.fincore360.service.DepartmentService;
 import com.fincore.fincore360.service.DesignationService;
 import com.fincore.fincore360.service.EmployeeService;
+import com.fincore.fincore360.service.LeaveService;
 import com.fincore.fincore360.service.PayrollService;
 
 import jakarta.validation.Valid;
@@ -38,7 +40,8 @@ private DesignationService designationService;
 // Designation चे save, update, delete, search इत्यादी काम Service कडून करून घेण्यासाठी
 @Autowired
 private PayrollService payrollService;
-
+@Autowired
+private LeaveService leaveService;
 
     // =====================================
 // मराठी : Home Page उघडणे
@@ -607,5 +610,115 @@ public String deletePayrollFromPage(@PathVariable int id) {
 
     // Delete झाल्यानंतर Payroll list page वर परत जातो.
     return "redirect:/payroll-page";
+}
+// =====================================
+// Marathi : Leave Page उघडणे
+// English : Open Leave Page
+// =====================================
+@GetMapping("/leave-page")
+public String leavePage(Model model) {
+
+    // Database मधील सर्व Leave records HTML page ला पाठवतो.
+    model.addAttribute("leaves",
+            leaveService.getAllLeaves());
+
+    // Database मधील सर्व Employees dropdown साठी page ला पाठवतो.
+    model.addAttribute("employees",
+            employeeService.getAllEmployees());
+
+    // leave.html page browser मध्ये दाखवतो.
+    return "leave";
+}
+// =====================================
+// Marathi : HTML Form मधून Leave Save करणे
+// English : Save Leave From HTML Form
+// =====================================
+@PostMapping("/leave-page/save")
+public String saveLeaveFromPage(
+        @ModelAttribute Leave leave) {
+
+    // Employee ID वरून actual Employee शोधून
+    // Leave database मध्ये save करतो.
+    leaveService.saveLeave(leave);
+
+    // Save झाल्यानंतर Leave page वर परत जातो.
+    return "redirect:/leave-page";
+}
+// =====================================
+// Marathi : Leave Edit Page उघडणे
+// English : Open Leave Edit Page
+// =====================================
+@GetMapping("/leave-page/edit/{id}")
+public String editLeavePage(
+        @PathVariable int id,
+        Model model) {
+
+    // ID वापरून existing Leave database मधून घेतो.
+    Leave leave = leaveService.getLeaveById(id);
+
+    // Leave सापडला नाही तर error दाखवतो.
+    if (leave == null) {
+        throw new RuntimeException("Leave not found");
+    }
+
+    // Existing Leave data edit page ला पाठवतो.
+    model.addAttribute("leave", leave);
+
+    // Employee dropdown साठी सर्व Employees पाठवतो.
+    model.addAttribute("employees",
+            employeeService.getAllEmployees());
+
+    // Edit Leave page open करतो.
+    return "leave-edit";
+}
+// =====================================
+// Marathi : Leave Update करणे
+// English : Update Leave From HTML Form
+// =====================================
+@PostMapping("/leave-page/update")
+public String updateLeaveFromPage(
+        @ModelAttribute Leave leave) {
+
+    // Existing Leave record database मधून घेतो.
+    Leave existingLeave =
+            leaveService.getLeaveById(leave.getId());
+
+    if (existingLeave == null) {
+        throw new RuntimeException("Leave not found");
+    }
+
+    // Updated Employee set करतो.
+    existingLeave.setEmployee(leave.getEmployee());
+
+    // Updated Leave Date set करतो.
+    existingLeave.setLeaveDate(leave.getLeaveDate());
+
+    // Updated Leave Type set करतो.
+    existingLeave.setLeaveType(leave.getLeaveType());
+
+    // Updated Status set करतो.
+    existingLeave.setStatus(leave.getStatus());
+
+    // Updated Reason set करतो.
+    existingLeave.setReason(leave.getReason());
+
+    // Updated Leave database मध्ये save करतो.
+    leaveService.saveLeave(existingLeave);
+
+    // Update झाल्यानंतर Leave list page वर परत जातो.
+    return "redirect:/leave-page";
+}
+// =====================================
+// Marathi : HTML Page मधून Leave Delete करणे
+// English : Delete Leave From HTML Page
+// =====================================
+@GetMapping("/leave-page/delete/{id}")
+public String deleteLeaveFromPage(@PathVariable int id) {
+
+    // Leave record database मधून delete करतो.
+    leaveService.deleteLeave(id);
+
+    // Delete झाल्यानंतर Leave list page वर परत जातो.
+    return "redirect:/leave-page";
 }
 }

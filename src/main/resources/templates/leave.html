@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Leave Management</title>
+
+    <!-- Existing Finecore360 CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+
+<body>
+
+<div class="main-card leave-page">
+
+    <!-- Page Title -->
+    <h1 class="page-title">
+        Leave Management
+    </h1>
+
+    <p class="page-subtitle">
+        Manage employee leave records
+    </p>
+
+
+    <!-- =====================================
+         LEAVE FORM
+         ===================================== -->
+
+    <form class="leave-form"
+          th:action="@{/leave-page/save}"
+          method="post">
+
+        <div class="leave-form-fields">
+
+
+            <!-- Employee -->
+            <div class="leave-field">
+
+                <label>Employee</label>
+
+                <select name="employee.id"
+                        required>
+
+                    <option value="">
+                        Select Employee
+                    </option>
+
+                    <option th:each="employee : ${employees}"
+                            th:value="${employee.id}"
+                            th:text="${employee.name}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Leave Date -->
+            <div class="leave-field">
+
+                <label>Leave Date</label>
+
+                <input type="date"
+                       name="leaveDate"
+                       required>
+
+            </div>
+
+
+            <!-- Leave Type -->
+            <div class="leave-field">
+
+                <label>Leave Type</label>
+
+                <select name="leaveType"
+                        required>
+
+                    <option value="">
+                        Select Leave Type
+                    </option>
+
+                    <option value="Casual Leave">
+                        Casual Leave
+                    </option>
+
+                    <option value="Sick Leave">
+                        Sick Leave
+                    </option>
+
+                    <option value="Earned Leave">
+                        Earned Leave
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Status -->
+            <div class="leave-field">
+
+                <label>Status</label>
+
+                <select name="status"
+                        required>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                    <option value="Approved">
+                        Approved
+                    </option>
+
+                    <option value="Rejected">
+                        Rejected
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Reason -->
+            <div class="leave-field">
+
+                <label>Reason</label>
+
+                <input type="text"
+                       name="reason"
+                       placeholder="Enter reason">
+
+            </div>
+
+
+            <!-- Save Button -->
+            <div class="leave-button">
+
+                <button type="submit">
+                    Save Leave
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+    <!-- =====================================
+         LEAVE RECORDS TABLE
+         ===================================== -->
+
+    <h2 class="leave-heading">
+        Leave Records
+    </h2>
+
+
+    <div class="leave-table-wrapper">
+
+        <table class="leave-table">
+
+            <thead>
+
+            <tr>
+
+                <th>ID</th>
+                <th>Employee</th>
+                <th>Leave Date</th>
+                <th>Leave Type</th>
+                <th>Status</th>
+                <th>Reason</th>
+                <th>Action</th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            <tr th:each="leave : ${leaves}">
+
+                <td th:text="${leave.id}">
+                </td>
+
+                <td th:text="${leave.employee.name}">
+                </td>
+
+                <td th:text="${leave.leaveDate}">
+                </td>
+
+                <td th:text="${leave.leaveType}">
+                </td>
+
+                <td th:text="${leave.status}">
+                </td>
+
+                <td th:text="${leave.reason}">
+                </td>
+
+
+                <td class="leave-actions">
+
+                    <!-- Edit -->
+                   <a th:href="@{/leave-page/edit/{id}(id=${leave.id})}"
+   class="edit-btn">
+    Edit
+</a>
+
+
+                  <!-- Delete -->
+<a th:href="@{/leave-page/delete/{id}(id=${leave.id})}"
+   class="delete-btn">
+    Delete
+</a>
+
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

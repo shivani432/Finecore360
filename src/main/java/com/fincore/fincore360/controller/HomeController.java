@@ -14,10 +14,12 @@ import com.fincore.fincore360.entity.Attendance;
 import com.fincore.fincore360.entity.Department;
 import com.fincore.fincore360.entity.Designation;
 import com.fincore.fincore360.entity.Employee;
+import com.fincore.fincore360.entity.Payroll;
 import com.fincore.fincore360.service.AttendanceService;
 import com.fincore.fincore360.service.DepartmentService;
 import com.fincore.fincore360.service.DesignationService;
 import com.fincore.fincore360.service.EmployeeService;
+import com.fincore.fincore360.service.PayrollService;
 
 import jakarta.validation.Valid;
 
@@ -34,6 +36,9 @@ private DepartmentService departmentService;
 @Autowired
 private DesignationService designationService;
 // Designation चे save, update, delete, search इत्यादी काम Service कडून करून घेण्यासाठी
+@Autowired
+private PayrollService payrollService;
+
 
     // =====================================
 // मराठी : Home Page उघडणे
@@ -507,5 +512,100 @@ public String updateAttendanceFromPage(
     // Update झाल्यावर Attendance list page वर परत जातो.
     return "redirect:/attendance-page";
 }
+// =====================================
+// Marathi : Payroll Page उघडणे
+// English : Open Payroll Page
+// =====================================
+@GetMapping("/payroll-page")
+public String payrollPage(Model model) {
 
+    // Database मधील सर्व Payroll records HTML page ला पाठवतो.
+    model.addAttribute("payrolls",
+            payrollService.getAllPayrolls());
+
+    // Database मधील सर्व Employees dropdown साठी page ला पाठवतो.
+    model.addAttribute("employees",
+            employeeService.getAllEmployees());
+
+    // payroll.html page browser मध्ये दाखवतो.
+    return "payroll";
+}
+// =====================================
+// Marathi : HTML Form मधून Payroll Save करणे
+// English : Save Payroll From HTML Form
+// =====================================
+@PostMapping("/payroll/save")
+public String savePayrollFromPage(
+        @ModelAttribute Payroll payroll) {
+
+    // PayrollService Employee शोधून
+    // Payroll database मध्ये save करेल.
+    payrollService.savePayroll(payroll);
+
+    // Save झाल्यानंतर Payroll page वर परत जातो.
+    return "redirect:/payroll-page";
+}
+// =====================================
+// Marathi : Payroll Edit Page उघडणे
+// English : Open Payroll Edit Page
+// =====================================
+@GetMapping("/payroll-page/edit/{id}")
+public String editPayrollPage(
+        @PathVariable int id,
+        Model model) {
+
+    // Database मधून existing Payroll record घेतो.
+    Payroll payroll = payrollService.getPayrollById(id);
+
+    // Payroll record edit page ला पाठवतो.
+    model.addAttribute("payroll", payroll);
+
+    // Employee dropdown साठी सर्व Employees पाठवतो.
+    model.addAttribute("employees",
+            employeeService.getAllEmployees());
+
+    return "payroll-edit";
+}
+// =====================================
+// Marathi : Payroll Update करणे
+// English : Update Payroll From HTML Form
+// =====================================
+@PostMapping("/payroll-update")
+public String updatePayrollFromPage(
+        @ModelAttribute Payroll payroll) {
+
+    // Existing Payroll record मिळवतो.
+    Payroll existingPayroll =
+            payrollService.getPayrollById(payroll.getId());
+
+    if (existingPayroll == null) {
+        throw new RuntimeException("Payroll not found");
+    }
+
+    // Updated values set करतो.
+    existingPayroll.setEmployee(payroll.getEmployee());
+    existingPayroll.setMonth(payroll.getMonth());
+    existingPayroll.setBasicSalary(payroll.getBasicSalary());
+    existingPayroll.setAllowances(payroll.getAllowances());
+    existingPayroll.setDeductions(payroll.getDeductions());
+
+    // Service net salary calculate करून database मध्ये save करेल.
+    payrollService.savePayroll(existingPayroll);
+
+    // Update झाल्यावर Payroll list page वर परत जातो.
+    return "redirect:/payroll-page";
+}
+// =====================================
+// Marathi : HTML Page मधून Payroll Delete करणे
+// English : Delete Payroll From HTML Page
+// =====================================
+@GetMapping("/payroll-page/delete/{id}")
+public String deletePayrollFromPage(@PathVariable int id) {
+
+    // Payroll record database मधून delete करतो.
+    payrollService.deletePayroll(id);
+
+    // Delete झाल्यानंतर Payroll list page वर परत जातो.
+    return "redirect:/payroll-page";
+}
 }

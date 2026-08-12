@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Edit Payroll</title>
+
+    <!-- Existing Finecore360 CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+
+<body>
+
+<div class="main-card payroll-page">
+
+    <!-- Page Title -->
+    <h1 class="page-title">
+        Edit Payroll
+    </h1>
+
+    <!-- Page Subtitle -->
+    <p class="page-subtitle">
+        Update employee payroll details
+    </p>
+
+
+    <!-- =====================================
+         EDIT PAYROLL FORM
+         ===================================== -->
+
+    <form class="payroll-form"
+          th:action="@{/payroll-update}"
+          method="post">
+
+
+        <!-- Existing Payroll ID -->
+        <input type="hidden"
+               name="id"
+               th:value="${payroll.id}">
+
+
+        <div class="payroll-form-scroll">
+
+
+            <!-- Employee -->
+            <div class="payroll-field">
+
+                <label>Employee</label>
+
+                <select name="employee.id"
+                        required>
+
+                    <option th:each="employee : ${employees}"
+                            th:value="${employee.id}"
+                            th:text="${employee.name}"
+                            th:selected="${payroll.employee != null
+                            and employee.id == payroll.employee.id}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Month -->
+            <div class="payroll-field">
+
+                <label>Month</label>
+
+                <input type="text"
+                       name="month"
+                       th:value="${payroll.month}"
+                       required>
+
+            </div>
+
+
+            <!-- Basic Salary -->
+            <div class="payroll-field">
+
+                <label>Basic Salary</label>
+
+                <input type="number"
+                       name="basicSalary"
+                       step="0.01"
+                       min="0"
+                       th:value="${payroll.basicSalary}"
+                       required>
+
+            </div>
+
+
+            <!-- Allowances -->
+            <div class="payroll-field">
+
+                <label>Allowances</label>
+
+                <input type="number"
+                       name="allowances"
+                       step="0.01"
+                       min="0"
+                       th:value="${payroll.allowances}">
+
+            </div>
+
+
+            <!-- Deductions -->
+            <div class="payroll-field">
+
+                <label>Deductions</label>
+
+                <input type="number"
+                       name="deductions"
+                       step="0.01"
+                       min="0"
+                       th:value="${payroll.deductions}">
+
+            </div>
+
+
+            <!-- Update Button -->
+            <div class="payroll-button">
+
+                <button type="submit">
+                    Update Payroll
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+    <!-- Back to Payroll -->
+    <br>
+
+    <a th:href="@{/payroll-page}">
+        ← Back to Payroll
+    </a>
+
+
+</div>
+
+</body>
+
+</html>

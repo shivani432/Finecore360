@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Payroll Management</title>
+
+    <!-- Existing Finecore360 CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+
+
+<body>
+
+<div class="main-card payroll-page">
+
+    <!-- Page Title -->
+    <h1 class="page-title">
+        Payroll Management
+    </h1>
+
+    <!-- Page Subtitle -->
+    <p class="page-subtitle">
+        Manage employee payroll and salary details
+    </p>
+
+
+    <!-- =====================================
+         PAYROLL FORM
+         ===================================== -->
+
+    <form class="payroll-form"
+          th:action="@{/payroll/save}"
+          method="post">
+
+        <div class="payroll-form-scroll">
+
+
+            <!-- Employee -->
+            <div class="payroll-field">
+
+                <label>Employee</label>
+
+                <select name="employee.id"
+                        required>
+
+                    <option value="">
+                        Select Employee
+                    </option>
+
+                    <option th:each="employee : ${employees}"
+                            th:value="${employee.id}"
+                            th:text="${employee.name}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Month -->
+            <div class="payroll-field">
+
+                <label>Month</label>
+
+                <input type="text"
+                       name="month"
+                       placeholder="August 2026"
+                       required>
+
+            </div>
+
+
+            <!-- Basic Salary -->
+            <div class="payroll-field">
+
+                <label>Basic Salary</label>
+
+                <input type="number"
+                       name="basicSalary"
+                       step="0.01"
+                       min="0"
+                       required>
+
+            </div>
+
+
+            <!-- Allowances -->
+            <div class="payroll-field">
+
+                <label>Allowances</label>
+
+                <input type="number"
+                       name="allowances"
+                       step="0.01"
+                       min="0"
+                       value="0">
+
+            </div>
+
+
+            <!-- Deductions -->
+            <div class="payroll-field">
+
+                <label>Deductions</label>
+
+                <input type="number"
+                       name="deductions"
+                       step="0.01"
+                       min="0"
+                       value="0">
+
+            </div>
+
+
+            <!-- Save Button -->
+            <div class="payroll-button">
+
+                <button type="submit">
+                    Save Payroll
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+    <!-- =====================================
+         PAYROLL RECORDS
+         ===================================== -->
+
+    <h2 class="payroll-heading">
+        Payroll Records
+    </h2>
+
+
+    <div class="payroll-table-wrapper">
+
+        <table class="table payroll-table">
+
+            <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Employee</th>
+
+                <th>Month</th>
+
+                <th>Basic Salary</th>
+
+                <th>Allowances</th>
+
+                <th>Deductions</th>
+
+                <th>Net Salary</th>
+
+                <th>Action</th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            <tr th:each="payroll : ${payrolls}">
+
+                <td th:text="${payroll.id}">
+                </td>
+
+                <td th:text="${payroll.employee.name}">
+                </td>
+
+                <td th:text="${payroll.month}">
+                </td>
+
+                <td th:text="${payroll.basicSalary}">
+                </td>
+
+                <td th:text="${payroll.allowances}">
+                </td>
+
+                <td th:text="${payroll.deductions}">
+                </td>
+
+                <td th:text="${payroll.netSalary}">
+                </td>
+
+
+                <td class="payroll-actions">
+
+                    <!-- Edit -->
+                  <a th:href="@{/payroll-page/edit/{id}(id=${payroll.id})}"
+   class="edit-btn">
+    Edit
+</a>
+                    <!-- Delete -->
+                <a th:href="@{/payroll-page/delete/{id}(id=${payroll.id})}"
+   class="delete-btn">
+    Delete
+</a>
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

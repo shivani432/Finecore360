@@ -370,3 +370,188 @@ button {
 .delete-btn:hover {
     background: #bb2d3b;
 }
+
+/* =====================================
+   PAYROLL PAGE
+   ===================================== */
+
+.payroll-page {
+    margin: 30px auto;
+    max-width: 1200px;
+}
+
+
+/* Payroll Form */
+
+.payroll-form {
+    margin-top: 25px;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+
+/* Form Fields */
+
+.payroll-form-scroll {
+    display: flex;
+    gap: 15px;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+
+.payroll-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 170px;
+}
+
+
+.payroll-field label {
+    margin-bottom: 7px;
+    font-weight: 600;
+    color: #333;
+}
+
+
+.payroll-field input,
+.payroll-field select {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 7px;
+    font-size: 14px;
+    background: white;
+}
+
+
+.payroll-field input:focus,
+.payroll-field select:focus {
+    outline: none;
+    border-color: #0d6efd;
+}
+
+
+/* Save / Update Button */
+
+.payroll-button button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 7px;
+    background: #0d6efd;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.payroll-button button:hover {
+    background: #0b5ed7;
+}
+
+
+/* Payroll Heading */
+
+.payroll-heading {
+    margin-top: 35px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+
+/* Table */
+
+.payroll-table-wrapper {
+    overflow-x: auto;
+}
+
+
+.payroll-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+
+.payroll-table th {
+    background: #0d6efd;
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+
+.payroll-table td {
+    padding: 11px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+
+.payroll-table tbody tr:hover {
+    background: #f5f7fa;
+}
+
+
+/* Edit Button */
+
+.payroll-actions .edit-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-right: 5px;
+    border-radius: 5px;
+    background: #198754;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+
+/* Delete Button */
+
+.payroll-actions .delete-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 5px;
+    background: #dc3545;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+
+.payroll-actions .edit-btn:hover {
+    background: #157347;
+}
+
+
+.payroll-actions .delete-btn:hover {
+    background: #bb2d3b;
+}
+
+
+/* =====================================
+   PAYROLL MOBILE VIEW
+   ===================================== */
+
+@media (max-width: 768px) {
+
+    .payroll-page {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    .payroll-form-scroll {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .payroll-field {
+        width: 100%;
+    }
+
+    .payroll-button button {
+        width: 100%;
+    }
+
+}
